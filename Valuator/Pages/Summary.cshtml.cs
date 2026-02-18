@@ -29,7 +29,7 @@ public class SummaryModel : PageModel
         RedisValue rank = _redis.StringGet("RANK-" + id);
         RedisValue similarity = _redis.StringGet("SIMILARITY-" + id);
 
-        Rank = rank.HasValue ? (double)rank : 0.0;
-        Similarity = similarity.HasValue ? (double)similarity : 0.0;
+        Rank = Math.Round((double)rank, 2);
+        Similarity = (double)similarity;
     }
 }

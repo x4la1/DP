@@ -26,19 +26,22 @@ public class IndexModel : PageModel
 
         string id = Guid.NewGuid().ToString();
 
-        // TODO: (pa1) посчитать similarity и сохранить в БД (Redis) по ключу similarityKey
-        string similarityKey = "SIMILARITY-" + id;
-        double similarity = CalculateSimilarity(text);
-        _redis.StringSet(similarityKey, similarity);
+        if(!string.IsNullOrEmpty(text))
+        {
+            // TODO: (pa1) посчитать similarity и сохранить в БД (Redis) по ключу similarityKey
+            string similarityKey = "SIMILARITY-" + id;
+            double similarity = CalculateSimilarity(text);
+            _redis.StringSet(similarityKey, similarity);
 
-        // TODO: (pa1) посчитать rank и сохранить в БД (Redis) по ключу rankKey
-        string rankKey = "RANK-" + id;
-        double rank = CalculateRank(text);
-        _redis.StringSet(rankKey, rank);
+            // TODO: (pa1) посчитать rank и сохранить в БД (Redis) по ключу rankKey
+            string rankKey = "RANK-" + id;
+            double rank = CalculateRank(text);
+            _redis.StringSet(rankKey, rank);
 
-        // TODO: (pa1) сохранить в БД (Redis) text по ключу textKey
-        string textKey = "TEXT-" + id;
-        _redis.StringSet(textKey, text);
+            // TODO: (pa1) сохранить в БД (Redis) text по ключу textKey
+            string textKey = "TEXT-" + id;
+            _redis.StringSet(textKey, text);
+        }
 
         return Redirect($"summary?id={id}");
     }
@@ -54,10 +57,7 @@ public class IndexModel : PageModel
 
         foreach (char c in text)
         {
-            bool isLatin = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
-            bool isRussian = (c >= 'а' && c <= 'я') || (c >= 'А' && c <= 'Я') || c == 'ё' || c == 'Ё';
-
-            if (!isLatin && !isRussian)
+            if(!char.IsLetter(c))
             {
                 nonAlphabetCharsCount++;
             }

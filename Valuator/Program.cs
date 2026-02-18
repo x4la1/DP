@@ -8,8 +8,10 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        string redisConnection = builder.Configuration["REDIS_CONNECTION"] ?? "";
+
         builder.Services.AddSingleton<IConnectionMultiplexer>(
-                sp => ConnectionMultiplexer.Connect("localhost:6379")
+                sp => ConnectionMultiplexer.Connect(redisConnection)
             );
 
         builder.Services.AddScoped(
