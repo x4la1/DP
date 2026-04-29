@@ -10,20 +10,20 @@ public class Program
 
         string redisConnection = builder.Configuration["REDIS_CONNECTION"] ?? "";
 
-        builder.Services.AddSingleton<IConnectionMultiplexer>(
+        builder.Services.AddSingleton<IConnectionMultiplexer>
+            (
                 sp => ConnectionMultiplexer.Connect(redisConnection)
             );
 
-        builder.Services.AddScoped(
+        builder.Services.AddScoped
+            (
                 sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase()
             );
 
-        // Add services to the container.
         builder.Services.AddRazorPages();
 
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
@@ -37,5 +37,25 @@ public class Program
         app.MapRazorPages();
 
         app.Run();
+    }
+
+    private double CalculateRank(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return 0.0;
+        }
+
+        int nonAlphabetCharsCount = 0;
+
+        foreach (char c in text)
+        {
+            if (!char.IsLetter(c))
+            {
+                nonAlphabetCharsCount++;
+            }
+        }
+
+        return (double)nonAlphabetCharsCount / text.Length;
     }
 }

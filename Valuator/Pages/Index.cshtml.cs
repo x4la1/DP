@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RabbitMQ.Client;
 using StackExchange.Redis;
+using System.Text;
 
 namespace Valuator.Pages;
 
@@ -9,18 +11,18 @@ public class IndexModel : PageModel
     private readonly ILogger<IndexModel> _logger;
     private readonly IDatabase _redis;
 
+    private const string ExchangeName = "valuator.processing.rank";
+    private const string QueueName = "valuator.processing.rank";
+
     public IndexModel(ILogger<IndexModel> logger, IDatabase redis)
     {
         _logger = logger;
         _redis = redis;
     }
 
-    public void OnGet()
-    {
+    public void OnGet() { }
 
-    }
-
-    public IActionResult OnPost(string text)
+    public async Task<IActionResult> OnPostAsync(string text)
     {
         _logger.LogDebug(text);
 
@@ -28,42 +30,35 @@ public class IndexModel : PageModel
 
         if(!string.IsNullOrEmpty(text))
         {
-            // TODO: (pa1) посчитать similarity и сохранить в БД (Redis) по ключу similarityKey
             string similarityKey = "SIMILARITY-" + id;
             double similarity = CalculateSimilarity(text);
-            _redis.StringSet(similarityKey, similarity);
+            await _redis.StringSetAsync(similarityKey, similarity);
 
-            // TODO: (pa1) посчитать rank и сохранить в БД (Redis) по ключу rankKey
-            string rankKey = "RANK-" + id;
-            double rank = CalculateRank(text);
-            _redis.StringSet(rankKey, rank);
-
-            // TODO: (pa1) сохранить в БД (Redis) text по ключу textKey
             string textKey = "TEXT-" + id;
-            _redis.StringSet(textKey, text);
+            await _redis.StringSetAsync(textKey, text);
+
+            await ProduceRankTaskAsync(id);
         }
 
         return Redirect($"summary?id={id}");
     }
 
-    private double CalculateRank(string text)
+    private async Task ProduceRankTaskAsync(string id)
     {
-        if (string.IsNullOrEmpty(text))
-        {
-            return 0.0;
-        }
+        ConnectionFactory factory = new ConnectionFactory { HostName = "localhost" };
+        await using IConnection connection = await factory.CreateConnectionAsync();
+        await using IChannel channel = await connection.CreateChannelAsync();
 
-        int nonAlphabetCharsCount = 0;
+        await DeclareTopologyAsync(channel, CancellationToken.None);
 
-        foreach (char c in text)
-        {
-            if(!char.IsLetter(c))
-            {
-                nonAlphabetCharsCount++;
-            }
-        }
+        byte[] messageData = Encoding.UTF8.GetBytes(id);
 
-        return (double)nonAlphabetCharsCount / text.Length;
+        await channel.BasicPublishAsync(
+            exchange: ExchangeName,
+            routingKey: "",
+            mandatory: false,
+            body: messageData
+        );
     }
 
     private double CalculateSimilarity(string text)
@@ -82,4 +77,26 @@ public class IndexModel : PageModel
 
         return 0.0;
     }
+
+    private static async Task DeclareTopologyAsync(IChannel channel, CancellationToken ct)
+    {
+        await channel.ExchangeDeclareAsync(
+            exchange: ExchangeName,
+            type: ExchangeType.Direct,
+            cancellationToken: ct
+        );
+        await channel.QueueDeclareAsync(
+            queue: QueueName,
+            durable: true,
+            exclusive: false,
+            autoDelete: false,
+            cancellationToken: ct
+        );
+        await channel.QueueBindAsync(
+            queue: QueueName,
+            exchange: ExchangeName,
+            routingKey: "",
+            cancellationToken: ct);
+    }
+
 }
