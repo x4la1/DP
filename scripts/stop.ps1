@@ -1,7 +1,7 @@
-Write-Host "--- Stopping Nginx ---" -ForegroundColor Yellow
+Write-Host "Stopping Nginx" -ForegroundColor Yellow
 Start-Process "C:\nginx\nginx.exe" -ArgumentList "-s stop" -WorkingDirectory "C:\nginx\"
 
-Write-Host "--- Stopping Valuator instances ---" -ForegroundColor Yellow
+Write-Host "Stopping Valuator instances" -ForegroundColor Yellow
 $Ports = 5001, 5002, 5003
 foreach ($Port in $Ports) {
     $ProcessId = (Get-NetTCPConnection -LocalPort $Port -ErrorAction SilentlyContinue).OwningProcess
@@ -11,7 +11,7 @@ foreach ($Port in $Ports) {
     }
 }
 
-Write-Host "--- Stopping RankCalculator instances ---" -ForegroundColor Yellow
+Write-Host "Stopping RankCalculator instances" -ForegroundColor Yellow
 $calcProcesses = Get-Process -Name "RankCalculator" -ErrorAction SilentlyContinue
 if ($calcProcesses) {
     Stop-Process -InputObject $calcProcesses -Force
@@ -20,4 +20,11 @@ if ($calcProcesses) {
     Write-Host "No RankCalculator processes found."
 }
 
-Write-Host "Cleanup complete." -ForegroundColor Green
+Write-Host "Stopping EventsLogger instances" -ForegroundColor Yellow
+$logProcesses = Get-Process -Name "EventsLogger" -ErrorAction SilentlyContinue
+if ($logProcesses) {
+    Stop-Process -InputObject $logProcesses -Force
+    Write-Host "Stopped $($logProcesses.Count) EventsLogger instance(s)."
+}
+
+Write-Host "Cleanup complete" -ForegroundColor Green

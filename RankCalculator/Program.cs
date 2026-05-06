@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using StackExchange.Redis;
@@ -8,6 +9,8 @@ namespace RankCalculator;
 class Program
 {
     private const string QueueName = "valuator.processing.rank";
+    private const string EventsExchangeName = "valuator.events";
+    private const string RankEventName = "event.rank";
     private static IDatabase _redis;
 
     public static async Task Main(string[] args)
@@ -23,15 +26,13 @@ class Program
 
         await DeclareTopologyAsync(channel);
 
-        await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
-
         string consumerTag = await RunConsumer(channel);
 
         Console.WriteLine("Press Enter to exit");
         Console.ReadLine();
 
         await channel.BasicCancelAsync(consumerTag);
-        Console.WriteLine("done");
+        Console.WriteLine("Done");
     }
 
     private static async Task<string> RunConsumer(IChannel channel)
@@ -57,9 +58,26 @@ class Program
         Console.WriteLine($"Calculated Rank: {rank}");
         await _redis.StringSetAsync("RANK-" + id, rank);
 
+        var rankEventPayload = new { Id = id, Rank = rank };
+        await PublishRankCalculatedEventAsync(channel, rankEventPayload);
 
         await channel.BasicAckAsync(eventArgs.DeliveryTag, false);
         Console.WriteLine("Task completed");
+    }
+
+    private static async Task PublishRankCalculatedEventAsync(IChannel channel, object payload)
+    {
+        await channel.ExchangeDeclareAsync(exchange: EventsExchangeName, type: ExchangeType.Topic);
+
+        string jsonMessage = JsonSerializer.Serialize(payload);
+        byte[] body = Encoding.UTF8.GetBytes(jsonMessage);
+
+        await channel.BasicPublishAsync(
+            exchange: EventsExchangeName,
+            routingKey: RankEventName,
+            mandatory: false,
+            body: body
+        );
     }
 
     private static async Task DeclareTopologyAsync(IChannel channel)
@@ -70,6 +88,8 @@ class Program
             exclusive: false,
             autoDelete: false
         );
+
+        await channel.BasicQosAsync(prefetchSize: 0, prefetchCount: 1, global: false);
     }
 
     private static double CalculateRank(string text)

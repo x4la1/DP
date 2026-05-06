@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RabbitMQ.Client;
 using StackExchange.Redis;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 
 namespace Valuator.Pages;
 
@@ -13,6 +15,8 @@ public class IndexModel : PageModel
 
     private const string ExchangeName = "valuator.processing.rank";
     private const string QueueName = "valuator.processing.rank";
+    private const string EventsExchangeName = "valuator.events";
+    private const string SimilarityEventName = "event.similarity";
 
     public IndexModel(ILogger<IndexModel> logger, IDatabase redis)
     {
@@ -28,22 +32,47 @@ public class IndexModel : PageModel
 
         string id = Guid.NewGuid().ToString();
 
-        if(!string.IsNullOrEmpty(text))
+        if (!string.IsNullOrEmpty(text))
         {
             string similarityKey = "SIMILARITY-" + id;
             double similarity = CalculateSimilarity(text);
             await _redis.StringSetAsync(similarityKey, similarity);
 
+            var similarityEventPayload = new { Id = id, Similarity = similarity };
+            await PublishSimilarityCalculatedEventAsync(similarityEventPayload);
+
             string textKey = "TEXT-" + id;
             await _redis.StringSetAsync(textKey, text);
 
-            await ProduceRankTaskAsync(id);
+            await PublishRankTaskAsync(id);
         }
 
         return Redirect($"summary?id={id}");
     }
 
-    private async Task ProduceRankTaskAsync(string id)
+    private async Task PublishSimilarityCalculatedEventAsync(object payload)
+    {
+        ConnectionFactory connectionFactory = new ConnectionFactory { HostName = "localhost" };
+        await using IConnection connection = await connectionFactory.CreateConnectionAsync();
+        await using IChannel channel = await connection.CreateChannelAsync();
+
+        await channel.ExchangeDeclareAsync(
+            exchange: EventsExchangeName,
+            type: ExchangeType.Topic
+        );
+
+        string jsonMessage = JsonSerializer.Serialize(payload);
+        byte[] messageData = Encoding.UTF8.GetBytes(jsonMessage);
+
+        await channel.BasicPublishAsync(
+            exchange: EventsExchangeName,
+            routingKey: SimilarityEventName,
+            mandatory: false,
+            body: messageData
+        );
+    }
+
+    private async Task PublishRankTaskAsync(string id)
     {
         ConnectionFactory factory = new ConnectionFactory { HostName = "localhost" };
         await using IConnection connection = await factory.CreateConnectionAsync();
@@ -96,7 +125,8 @@ public class IndexModel : PageModel
             queue: QueueName,
             exchange: ExchangeName,
             routingKey: "",
-            cancellationToken: ct);
+            cancellationToken: ct
+        );
     }
 
 }
