@@ -37,7 +37,7 @@ class Program
         Console.ReadLine();
     }
 
-    private static async Task ConsumeAsync(IChannel channel, BasicDeliverEventArgs eventArgs)
+    private static async Task ConsumeAsync(IChannel channel, BasicDeliverEventArgs eventArgs) //TODO contract
     {
         string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
         string routingKey = eventArgs.RoutingKey;
@@ -65,7 +65,7 @@ class Program
         await channel.ExchangeDeclareAsync(
             exchange: EventsExchangeName,
             type: ExchangeType.Topic
-            );
+        );
 
         QueueDeclareOk queueDeclareResult = await channel.QueueDeclareAsync(
             queue: "",

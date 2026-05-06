@@ -1,38 +1,30 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Lebed\\source\\repos\\DP\\",
+  "WorkspaceRootPath": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{43C8CE93-3AEE-491B-A891-6016D32112D4}|RankCalculator\\RankCalculator.csproj|c:\\users\\lebed\\source\\repos\\dp\\rankcalculator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{1A41F3A1-824E-45B2-A439-32E80AAED873}|EventsLogger\\EventsLogger.csproj|c:\\users\\\u0434\u0435\u043D\u0438\u0441\\source\\repos\\dp\\eventslogger\\eventslogger.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{1A41F3A1-824E-45B2-A439-32E80AAED873}|EventsLogger\\EventsLogger.csproj|solutionrelative:eventslogger\\eventslogger.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43C8CE93-3AEE-491B-A891-6016D32112D4}|RankCalculator\\RankCalculator.csproj|c:\\users\\\u0434\u0435\u043D\u0438\u0441\\source\\repos\\dp\\rankcalculator\\rankcalculator.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{43C8CE93-3AEE-491B-A891-6016D32112D4}|RankCalculator\\RankCalculator.csproj|solutionrelative:rankcalculator\\rankcalculator.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\\u0434\u0435\u043D\u0438\u0441\\source\\repos\\dp\\valuator\\valuator.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\valuator.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{43C8CE93-3AEE-491B-A891-6016D32112D4}|RankCalculator\\RankCalculator.csproj|c:\\users\\\u0434\u0435\u043D\u0438\u0441\\source\\repos\\dp\\rankcalculator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{43C8CE93-3AEE-491B-A891-6016D32112D4}|RankCalculator\\RankCalculator.csproj|solutionrelative:rankcalculator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\\u0434\u0435\u043D\u0438\u0441\\source\\repos\\dp\\valuator\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\pages\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\pages\\summary.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\pages\\summary.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\pages\\summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\pages\\summary.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|c:\\users\\lebed\\source\\repos\\dp\\valuator\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{BB3B7AF3-09CB-8246-6EE6-CF385AAB4AA1}|Valuator\\Valuator.csproj|solutionrelative:valuator\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{1A41F3A1-824E-45B2-A439-32E80AAED873}|EventsLogger\\EventsLogger.csproj|c:\\users\\\u0434\u0435\u043D\u0438\u0441\\source\\repos\\dp\\eventslogger\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1A41F3A1-824E-45B2-A439-32E80AAED873}|EventsLogger\\EventsLogger.csproj|solutionrelative:eventslogger\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -41,110 +33,94 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 82,
-          "SelectedChildIndex": 1,
+          "DockedWidth": 124,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Pages\\Index.cshtml.cs",
-              "RelativeDocumentMoniker": "Valuator\\Pages\\Index.cshtml.cs",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Pages\\Index.cshtml.cs",
-              "RelativeToolTip": "Valuator\\Pages\\Index.cshtml.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAADwAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T08:33:22.402Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\RankCalculator\\Program.cs",
-              "RelativeDocumentMoniker": "RankCalculator\\Program.cs",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\RankCalculator\\Program.cs",
-              "RelativeToolTip": "RankCalculator\\Program.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAAAQwFAAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T10:32:37.757Z",
+              "Title": "EventsLogger",
+              "DocumentMoniker": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\EventsLogger\\EventsLogger.csproj",
+              "RelativeDocumentMoniker": "EventsLogger\\EventsLogger.csproj",
+              "ToolTip": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\EventsLogger\\EventsLogger.csproj",
+              "RelativeToolTip": "EventsLogger\\EventsLogger.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwoAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-06T10:37:17.457Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": ".gitignore",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\.gitignore",
-              "RelativeDocumentMoniker": "Valuator\\.gitignore",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\.gitignore",
-              "RelativeToolTip": "Valuator\\.gitignore",
-              "ViewState": "AgIAABsAAAAAAAAAAADwvykAAAAAAAAAAAAAAA==",
-              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF8SURBVDhPjVNLTgJBEG1lwpoFB3GNK9fieA48hD8iwT/ihwgSDAIHgAGXXsEV18CNzL/LquqZdsYM6kteXqcy3fWqpmpNRBgOhyABBEgpAFVKPIMUcYzUyOU\u002BXM/b2qtU3vkSfRjjZTCAMAw1A2LwzdFoBPP5HNqdzuL27n4juibWI\u002BUshBA1DIkhEx9iEorFotgslQqGYbxxAGFEqt1MxmPWJLbLZdZ\u002Bv89q5PMFPiTR6z2zdaxR0fXA0XTBcVywkb4fwHXjRteecIDNQ7UmExVYAdPcxYaqclN46na5WenMKjtlVnTYwcXlVYaDqImW9beD5N/TeGy32QHXm6hZ03ZgiSQHp2fnWQ4oBmJqWSqwAqZpZjt4aLXAD4J0VqyZsmoubfB8H2r1eoaD6NXZ9HcHO\u002BSA3f4AjifXl8rItOETM8ckB9WTWpYD9RdeZ1PWVWAHWXPQaDb59f/w8LiqHeh1pvGkCaP6qB8yXusoxmuNZ7XmII4O9vGuEF86osuDYRkpYQAAAABJRU5ErkJggg==",
-              "WhenOpened": "2026-03-03T11:34:22.539Z"
+              "DocumentIndex": 1,
+              "Title": "RankCalculator",
+              "DocumentMoniker": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\RankCalculator\\RankCalculator.csproj",
+              "RelativeDocumentMoniker": "RankCalculator\\RankCalculator.csproj",
+              "ToolTip": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\RankCalculator\\RankCalculator.csproj",
+              "RelativeToolTip": "RankCalculator\\RankCalculator.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-06T10:37:09.654Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Valuator\\Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Valuator\\Properties\\launchSettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwoAAAAsAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-18T11:30:11.618Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\appsettings.json",
-              "RelativeDocumentMoniker": "Valuator\\appsettings.json",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\appsettings.json",
-              "RelativeToolTip": "Valuator\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwcAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-18T11:29:56.589Z"
+              "DocumentIndex": 2,
+              "Title": "Valuator",
+              "DocumentMoniker": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\Valuator\\Valuator.csproj",
+              "RelativeDocumentMoniker": "Valuator\\Valuator.csproj",
+              "ToolTip": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\Valuator\\Valuator.csproj",
+              "RelativeToolTip": "Valuator\\Valuator.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAADwvwYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-05-06T10:36:34.669Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Summary.cshtml",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Pages\\Summary.cshtml",
-              "RelativeDocumentMoniker": "Valuator\\Pages\\Summary.cshtml",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Pages\\Summary.cshtml",
-              "RelativeToolTip": "Valuator\\Pages\\Summary.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwUAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-18T08:58:41.206Z"
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\Valuator\\Pages\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Valuator\\Pages\\Index.cshtml.cs",
+              "ToolTip": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\Valuator\\Pages\\Index.cshtml.cs",
+              "RelativeToolTip": "Valuator\\Pages\\Index.cshtml.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAA4wFcAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-17T08:33:22.402Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\EventsLogger\\Program.cs",
+              "RelativeDocumentMoniker": "EventsLogger\\Program.cs",
+              "ToolTip": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\EventsLogger\\Program.cs",
+              "RelativeToolTip": "EventsLogger\\Program.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAgwFEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-06T08:42:26.717Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Program.cs",
-              "RelativeDocumentMoniker": "Valuator\\Program.cs",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Program.cs",
-              "RelativeToolTip": "Valuator\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABEAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\RankCalculator\\Program.cs",
+              "RelativeDocumentMoniker": "RankCalculator\\Program.cs",
+              "ToolTip": "C:\\Users\\\u0414\u0435\u043D\u0438\u0441\\source\\repos\\DP\\RankCalculator\\Program.cs",
+              "RelativeToolTip": "RankCalculator\\Program.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAowDsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T08:38:05.391Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Summary.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Pages\\Summary.cshtml.cs",
-              "RelativeDocumentMoniker": "Valuator\\Pages\\Summary.cshtml.cs",
-              "ToolTip": "C:\\Users\\Lebed\\source\\repos\\DP\\Valuator\\Pages\\Summary.cshtml.cs",
-              "RelativeToolTip": "Valuator\\Pages\\Summary.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T08:34:58.239Z"
-            },
+              "WhenOpened": "2026-04-07T10:32:37.757Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 29,
+          "SelectedChildIndex": -1,
+          "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             }
           ]
         }
