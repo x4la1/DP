@@ -9,13 +9,13 @@ using Valuator.Hubs;
 
 namespace Valuator.Services;
 
-public class RabbitMqListenerService : BackgroundService
+public class RankEventListenerService : BackgroundService
 {
     private readonly IHubContext<ResultHub> hubContext;
     private const string EventsExchangeName = "valuator.events";
     private string queueName = "";
 
-    public RabbitMqListenerService(IHubContext<ResultHub> hubContext)
+    public RankEventListenerService(IHubContext<ResultHub> hubContext)
     {
         this.hubContext = hubContext;
     }

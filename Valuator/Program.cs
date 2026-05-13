@@ -23,7 +23,7 @@ public class Program
         builder.Services.AddRazorPages();
 
         builder.Services.AddSignalR();
-        builder.Services.AddHostedService<Services.RabbitMqListenerService>();
+        builder.Services.AddHostedService<Services.RankEventListenerService>();
 
         var app = builder.Build();
 
