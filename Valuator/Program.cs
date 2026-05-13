@@ -1,5 +1,5 @@
 using StackExchange.Redis;
-
+using Valuator.Hubs;
 namespace Valuator;
 
 public class Program
@@ -22,6 +22,9 @@ public class Program
 
         builder.Services.AddRazorPages();
 
+        builder.Services.AddSignalR();
+        builder.Services.AddHostedService<Services.RabbitMqListenerService>();
+
         var app = builder.Build();
 
         if (!app.Environment.IsDevelopment())
@@ -36,26 +39,8 @@ public class Program
 
         app.MapRazorPages();
 
+        app.MapHub<ResultHub>("/resultHub");
+
         app.Run();
-    }
-
-    private double CalculateRank(string text)
-    {
-        if (string.IsNullOrEmpty(text))
-        {
-            return 0.0;
-        }
-
-        int nonAlphabetCharsCount = 0;
-
-        foreach (char c in text)
-        {
-            if (!char.IsLetter(c))
-            {
-                nonAlphabetCharsCount++;
-            }
-        }
-
-        return (double)nonAlphabetCharsCount / text.Length;
     }
 }

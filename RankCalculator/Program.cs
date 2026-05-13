@@ -3,6 +3,7 @@ using System.Text.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using StackExchange.Redis;
+using Shared;
 
 namespace RankCalculator;
 
@@ -54,18 +55,22 @@ class Program
         RedisValue textValue = await _redis.StringGetAsync("TEXT-" + id);
         string text = textValue.ToString();
 
+        TimeSpan interval = TimeSpan.FromSeconds(new Random().Next(3, 15));
+        Console.WriteLine($"Waiting {interval}");
+        await Task.Delay(interval);
+
         double rank = CalculateRank(text);
         Console.WriteLine($"Calculated Rank: {rank}");
         await _redis.StringSetAsync("RANK-" + id, rank);
 
-        var rankEventPayload = new { Id = id, Rank = rank };
+        RankCalculatedEvent rankEventPayload = new(id, rank);
         await PublishRankCalculatedEventAsync(channel, rankEventPayload);
 
         await channel.BasicAckAsync(eventArgs.DeliveryTag, false);
         Console.WriteLine("Task completed");
     }
 
-    private static async Task PublishRankCalculatedEventAsync(IChannel channel, object payload)
+    private static async Task PublishRankCalculatedEventAsync(IChannel channel, RankCalculatedEvent payload)
     {
         await channel.ExchangeDeclareAsync(exchange: EventsExchangeName, type: ExchangeType.Topic);
 

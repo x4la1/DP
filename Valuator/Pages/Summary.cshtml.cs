@@ -19,12 +19,16 @@ public class SummaryModel : PageModel
         _redis = redis;
     }
 
-    public string Rank { get; set; } = "Оценка содержания не завершена";
+    public double? Rank { get; set; }
     public double Similarity { get; set; }
+
+    public string Id { get; set; } = "";
 
     public void OnGet(string id)
     {
         _logger.LogDebug(id);
+
+        Id = id;
 
         RedisValue similarity = _redis.StringGet("SIMILARITY-" + id);
         Similarity = (double)similarity;
@@ -32,7 +36,7 @@ public class SummaryModel : PageModel
         RedisValue rank = _redis.StringGet("RANK-" + id);
         if (rank.HasValue)
         {
-            Rank = Math.Round((double)rank, 2).ToString();
+            Rank = Math.Round((double)rank, 2);
         }
     }
 }

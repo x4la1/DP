@@ -1,5 +1,6 @@
 ﻿using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Shared;
 using System;
 using System.Text;
 using System.Text.Json;
@@ -29,8 +30,8 @@ class Program
         consumer.ReceivedAsync += async (_, eventArgs) => await ConsumeAsync(channel, eventArgs);
 
         await channel.BasicConsumeAsync(
-            queue: queueName, 
-            autoAck: false, 
+            queue: queueName,
+            autoAck: false,
             consumer: consumer
         );
 
@@ -42,19 +43,28 @@ class Program
         string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
         string routingKey = eventArgs.RoutingKey;
 
-        using JsonDocument doc = JsonDocument.Parse(message);
-        JsonElement root = doc.RootElement;
-        string id = root.GetProperty("Id").GetString() ?? "Unknown";
-
-        if (routingKey == RankEventName)
+        try
         {
-            double rank = root.GetProperty("Rank").GetDouble();
-            Console.WriteLine($"RankCalculated ID: {id}, Rank: {rank}");
+            if (routingKey == RankEventName)
+            {
+                RankCalculatedEvent? eventData = JsonSerializer.Deserialize<RankCalculatedEvent>(message);
+                if (eventData != null)
+                {
+                    Console.WriteLine($"RankCalculated ID: {eventData.Id}, Rank: {eventData.Rank}");
+                }
+            }
+            else if (routingKey == SimilarityEventName)
+            {
+                SimilarityCalculatedEvent? eventData = JsonSerializer.Deserialize<SimilarityCalculatedEvent>(message);
+                if (eventData != null)
+                {
+                    Console.WriteLine($"SimilarityCalculated ID: {eventData.Id}, Similarity: {eventData.Similarity}");
+                }
+            }
         }
-        else if (routingKey == SimilarityEventName)
+        catch (Exception ex)
         {
-            double similarity = root.GetProperty("Similarity").GetDouble();
-            Console.WriteLine($"SimilarityCalculated ID: {id}, Similarity: {similarity}");
+            Console.WriteLine($"Ошибка обработки JSON: {ex.Message}");
         }
 
         await channel.BasicAckAsync(eventArgs.DeliveryTag, false);
