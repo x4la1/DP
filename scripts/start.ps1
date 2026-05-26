@@ -1,6 +1,6 @@
-$ValuatorPath = "C:\Users\Денис\source\repos\DP\Valuator"
-$CalcPath = "C:\Users\Денис\source\repos\DP\RankCalculator"
-$LoggerPath = "C:\Users\Денис\source\repos\DP\EventsLogger"
+$ValuatorPath = "C:\Users\Lebed\source\repos\DP\Valuator"
+$CalcPath = "C:\Users\Lebed\source\repos\DP\RankCalculator"
+$LoggerPath = "C:\Users\Lebed\source\repos\DP\EventsLogger"
 $Ports = 5001, 5002, 5003
 
 Write-Host "Starting Valuator instances" -ForegroundColor Cyan

@@ -5,6 +5,7 @@ using StackExchange.Redis;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
+using Shared;
 
 namespace Valuator.Pages;
 
@@ -38,7 +39,7 @@ public class IndexModel : PageModel
             double similarity = CalculateSimilarity(text);
             await _redis.StringSetAsync(similarityKey, similarity);
 
-            var similarityEventPayload = new { Id = id, Similarity = similarity };
+            SimilarityCalculatedEvent similarityEventPayload = new(id, similarity);
             await PublishSimilarityCalculatedEventAsync(similarityEventPayload);
 
             string textKey = "TEXT-" + id;
@@ -50,7 +51,7 @@ public class IndexModel : PageModel
         return Redirect($"summary?id={id}");
     }
 
-    private async Task PublishSimilarityCalculatedEventAsync(object payload)
+    private async Task PublishSimilarityCalculatedEventAsync(SimilarityCalculatedEvent payload)
     {
         ConnectionFactory connectionFactory = new ConnectionFactory { HostName = "localhost" };
         await using IConnection connection = await connectionFactory.CreateConnectionAsync();
