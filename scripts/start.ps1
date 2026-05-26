@@ -3,6 +3,22 @@ $CalcPath = "C:\Users\Lebed\source\repos\DP\RankCalculator"
 $LoggerPath = "C:\Users\Lebed\source\repos\DP\EventsLogger"
 $Ports = 5001, 5002, 5003
 
+$RedisPath = "C:\Redis\redis-server.exe"
+$RedisCliPath = "C:\Redis\redis-cli.exe"
+$RedisPorts = 6000, 6001, 6002, 6003
+
+Write-Host "Starting Redis instances" -ForegroundColor Cyan
+foreach ($Port in $RedisPorts) {
+    Write-Host "Launching Redis on port $Port"
+    Start-Process $RedisPath -ArgumentList "--port $Port" -WindowStyle Minimized
+}
+
+Write-Host "Starting Redis CLI instances" -ForegroundColor Cyan
+foreach ($Port in $RedisPorts) {
+    Write-Host "Opening redis-cli for port $Port"
+    Start-Process $RedisCliPath -ArgumentList "-p $Port"
+}
+
 Write-Host "Starting Valuator instances" -ForegroundColor Cyan
 foreach ($Port in $Ports) {
     Write-Host "Launching Valuator on port $Port"
@@ -20,6 +36,8 @@ for ($i=1; $i -le 2; $i++) {
     Write-Host "Launching EventsLogger instance $i"
     Start-Process dotnet -ArgumentList "run --project `"$LoggerPath`"" -WindowStyle Minimized
 }
+
+
 
 Write-Host "Starting Nginx" -ForegroundColor Cyan
 Start-Process "C:\nginx\nginx.exe" -WorkingDirectory "C:\nginx\"

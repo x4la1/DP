@@ -27,4 +27,17 @@ if ($logProcesses) {
     Write-Host "Stopped $($logProcesses.Count) EventsLogger instance(s)."
 }
 
+Write-Host "Stopping Redis instances" -ForegroundColor Yellow
+$redisProcesses = Get-Process -Name "redis-server" -ErrorAction SilentlyContinue
+
+if ($redisProcesses) 
+{
+    Stop-Process -InputObject $redisProcesses -Force
+    Write-Host "Stopped $($redisProcesses.Count) Redis instance(s)."
+}
+else 
+{
+    Write-Host "No Redis processes found."
+}
+
 Write-Host "Cleanup complete" -ForegroundColor Green

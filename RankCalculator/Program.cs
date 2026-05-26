@@ -12,14 +12,19 @@ class Program
     private const string QueueName = "valuator.processing.rank";
     private const string EventsExchangeName = "valuator.events";
     private const string RankEventName = "event.rank";
-    private static IDatabase _redis;
+    
+    private static IDatabase _mainDb;
+    private static Dictionary<string, IDatabase> _shards = new();
+
 
     public static async Task Main(string[] args)
     {
         Console.WriteLine("Consumer started");
 
-        ConnectionMultiplexer redisConnection = await ConnectionMultiplexer.ConnectAsync("localhost:6379");
-        _redis = redisConnection.GetDatabase();
+        _mainDb = (await ConnectionMultiplexer.ConnectAsync("localhost:6000")).GetDatabase();
+        _shards["RU"] = (await ConnectionMultiplexer.ConnectAsync("localhost:6001")).GetDatabase();
+        _shards["EU"] = (await ConnectionMultiplexer.ConnectAsync("localhost:6002")).GetDatabase();
+        _shards["ASIA"] = (await ConnectionMultiplexer.ConnectAsync("localhost:6003")).GetDatabase();
 
         ConnectionFactory factory = new ConnectionFactory { HostName = "localhost" };
         await using IConnection connection = await factory.CreateConnectionAsync();
@@ -52,18 +57,25 @@ class Program
     {
         string id = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
 
-        RedisValue textValue = await _redis.StringGetAsync("TEXT-" + id);
+        RedisValue regionVal = await _mainDb.StringGetAsync("SHARD-" + id);
+        string region = regionVal.ToString();
+
+        Console.WriteLine($"LOOKUP: {id}, {region}");
+
+        IDatabase shardDb = _shards[region];
+
+        RedisValue textValue = await shardDb.StringGetAsync("TEXT-" + id);
         string text = textValue.ToString();
 
         double rank = CalculateRank(text);
-        Console.WriteLine($"Calculated Rank: {rank}");
-        await _redis.StringSetAsync("RANK-" + id, rank);
+        Console.WriteLine($"Calculated Rank: {rank} for Region: {region}");
+
+        await shardDb.StringSetAsync("RANK-" + id, rank);
 
         RankCalculatedEvent rankEventPayload = new(id, rank);
         await PublishRankCalculatedEventAsync(channel, rankEventPayload);
 
         await channel.BasicAckAsync(eventArgs.DeliveryTag, false);
-        Console.WriteLine("Task completed");
     }
 
     private static async Task PublishRankCalculatedEventAsync(IChannel channel, RankCalculatedEvent payload)

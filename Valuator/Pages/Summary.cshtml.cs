@@ -11,28 +11,38 @@ namespace Valuator.Pages;
 public class SummaryModel : PageModel
 {
     private readonly ILogger<SummaryModel> _logger;
-    private readonly IDatabase _redis;
+    private readonly RedisShardingService _redisService;
 
-    public SummaryModel(ILogger<SummaryModel> logger, IDatabase redis)
+    public SummaryModel(ILogger<SummaryModel> logger, RedisShardingService redisService)
     {
         _logger = logger;
-        _redis = redis;
+        _redisService = redisService;
     }
 
     public string Rank { get; set; } = "Оценка содержания не завершена";
     public double Similarity { get; set; }
 
-    public void OnGet(string id)
+    public async Task OnGet(string id)
     {
-        _logger.LogDebug(id);
+        IDatabase mainDb = _redisService.GetMainDb();
 
-        RedisValue similarity = _redis.StringGet("SIMILARITY-" + id);
-        Similarity = (double)similarity;
+        RedisValue regionVal = await mainDb.StringGetAsync("SHARD-" + id);
+        string region = regionVal.ToString();
 
-        RedisValue rank = _redis.StringGet("RANK-" + id);
-        if (rank.HasValue)
+        _logger.LogInformation($"LOOKUP: {id}, {region}");
+
+        if (!string.IsNullOrEmpty(region))
         {
-            Rank = Math.Round((double)rank, 2).ToString();
+            IDatabase shardDb = _redisService.GetShardDb(region);
+
+            RedisValue similarity = await shardDb.StringGetAsync("SIMILARITY-" + id);
+            Similarity = (double)similarity;
+
+            RedisValue rank = await shardDb.StringGetAsync("RANK-" + id);
+            if (rank.HasValue)
+            {
+                Rank = Math.Round((double)rank, 2).ToString();
+            }
         }
     }
 }

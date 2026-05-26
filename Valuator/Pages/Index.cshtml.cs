@@ -12,38 +12,55 @@ namespace Valuator.Pages;
 public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
-    private readonly IDatabase _redis;
+    private readonly RedisShardingService _redisService;
+
+    private static readonly Dictionary<string, string> CountryRegions = new()
+    {
+        { "Russia", "RU" },
+        { "France", "EU" },
+        { "Germany", "EU" },
+        { "UAE", "ASIA" },
+        { "India", "ASIA" }
+    };
 
     private const string ExchangeName = "valuator.processing.rank";
     private const string QueueName = "valuator.processing.rank";
     private const string EventsExchangeName = "valuator.events";
     private const string SimilarityEventName = "event.similarity";
 
-    public IndexModel(ILogger<IndexModel> logger, IDatabase redis)
+    public IndexModel(ILogger<IndexModel> logger, RedisShardingService redisService)
     {
         _logger = logger;
-        _redis = redis;
+        _redisService = redisService;
     }
 
     public void OnGet() { }
 
-    public async Task<IActionResult> OnPostAsync(string text)
+    public async Task<IActionResult> OnPostAsync(string text, string country)
     {
         _logger.LogDebug(text);
 
         string id = Guid.NewGuid().ToString();
+        string region = CountryRegions.TryGetValue(country, out string? value) ? value : "";
 
-        if (!string.IsNullOrEmpty(text))
+        if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(region))
         {
+            IDatabase mainDb = _redisService.GetMainDb();
+            IDatabase shardDb = _redisService.GetShardDb(region);
+
+            await mainDb.StringSetAsync("SHARD-" + id, region);
+
             string similarityKey = "SIMILARITY-" + id;
-            double similarity = CalculateSimilarity(text);
-            await _redis.StringSetAsync(similarityKey, similarity);
+            double similarity = CalculateSimilarity(text, shardDb);
+            await shardDb.StringSetAsync(similarityKey, similarity);
 
             SimilarityCalculatedEvent similarityEventPayload = new(id, similarity);
             await PublishSimilarityCalculatedEventAsync(similarityEventPayload);
 
             string textKey = "TEXT-" + id;
-            await _redis.StringSetAsync(textKey, text);
+            await shardDb.StringSetAsync(textKey, text);
+
+            _logger.LogInformation($"LOOKUP: {id}, {region}");
 
             await PublishRankTaskAsync(id);
         }
@@ -91,14 +108,14 @@ public class IndexModel : PageModel
         );
     }
 
-    private double CalculateSimilarity(string text)
+    private double CalculateSimilarity(string text, IDatabase shardDb)
     {
-        IServer server = _redis.Multiplexer.GetServer(_redis.Multiplexer.GetEndPoints().First());
+        IServer server = shardDb.Multiplexer.GetServer(shardDb.Multiplexer.GetEndPoints().First());
         RedisKey[] textKeys = server.Keys(pattern: "TEXT-*").ToArray();
 
         foreach (RedisKey key in textKeys)
         {
-            RedisValue currentText = _redis.StringGet(key);
+            RedisValue currentText = shardDb.StringGet(key);
             if (currentText.HasValue && currentText.ToString() == text)
             {
                 return 1.0;
