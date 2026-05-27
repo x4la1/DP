@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 
 namespace Valuator.Pages;
+
+[Authorize]
 public class SummaryModel : PageModel
 {
     private readonly ILogger<SummaryModel> _logger;
@@ -22,8 +25,17 @@ public class SummaryModel : PageModel
     public string Rank { get; set; } = "Оценка содержания не завершена";
     public double Similarity { get; set; }
 
-    public void OnGet(string id)
+    public IActionResult OnGet(string id)
     {
+        string currentUser = User.Identity?.Name ?? "";
+
+        RedisValue author = _redis.StringGet("AUTHOR-" + id);
+
+        if(author.HasValue && author.ToString() != currentUser)
+        {
+            return RedirectToPage("/Index");
+        }
+
         _logger.LogDebug(id);
 
         RedisValue similarity = _redis.StringGet("SIMILARITY-" + id);
@@ -34,5 +46,7 @@ public class SummaryModel : PageModel
         {
             Rank = Math.Round((double)rank, 2).ToString();
         }
+
+        return Page();
     }
 }

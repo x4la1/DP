@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using RabbitMQ.Client;
 using StackExchange.Redis;
 
@@ -31,6 +32,12 @@ public class Program
         IConnection rabbitConnection = await rabbitFactory.CreateConnectionAsync();
         builder.Services.AddSingleton(rabbitConnection);
 
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Login";
+            });
+
         builder.Services.AddRazorPages();
 
         var app = builder.Build();
@@ -43,6 +50,7 @@ public class Program
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapRazorPages();
