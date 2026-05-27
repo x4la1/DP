@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using StackExchange.Redis;
@@ -17,11 +18,17 @@ class Program
     public static async Task Main(string[] args)
     {
         Console.WriteLine("Consumer started");
-
-        ConnectionMultiplexer redisConnection = await ConnectionMultiplexer.ConnectAsync("localhost:6379");
+        
+        ConnectionMultiplexer redisConnection = await ConnectionMultiplexer.ConnectAsync(Environment.GetEnvironmentVariable("REDIS_CONNECTION") ?? "");
         _redis = redisConnection.GetDatabase();
 
-        ConnectionFactory factory = new ConnectionFactory { HostName = "localhost" };
+        ConnectionFactory factory = new ConnectionFactory
+        {
+            HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "",
+            UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "",
+            Password = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? ""
+        };
+
         await using IConnection connection = await factory.CreateConnectionAsync();
         await using IChannel channel = await connection.CreateChannelAsync();
 

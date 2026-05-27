@@ -20,7 +20,13 @@ class Program
     {
         Console.WriteLine("EventsLogger started");
 
-        ConnectionFactory factory = new ConnectionFactory { HostName = "localhost" };
+        ConnectionFactory factory = new ConnectionFactory
+        {
+            HostName = Environment.GetEnvironmentVariable("RABBITMQ_HOST") ?? "",
+            UserName = Environment.GetEnvironmentVariable("RABBITMQ_USER") ?? "",
+            Password = Environment.GetEnvironmentVariable("RABBITMQ_PASS") ?? ""
+        };
+
         await using IConnection connection = await factory.CreateConnectionAsync();
         await using IChannel channel = await connection.CreateChannelAsync();
 
@@ -30,8 +36,8 @@ class Program
         consumer.ReceivedAsync += async (_, eventArgs) => await ConsumeAsync(channel, eventArgs);
 
         await channel.BasicConsumeAsync(
-            queue: queueName, 
-            autoAck: false, 
+            queue: queueName,
+            autoAck: false,
             consumer: consumer
         );
 

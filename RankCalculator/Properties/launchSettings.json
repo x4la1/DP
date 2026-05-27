@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "RankCalculator": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "REDIS_CONNECTION": "localhost:6379,password=123456",
+        "RABBITMQ_HOST": "localhost",
+        "RABBITMQ_USER": "admin",
+        "RABBITMQ_PASS": "123456"
+      }
+    }
+  }
+}

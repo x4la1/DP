@@ -1,10 +1,11 @@
+using RabbitMQ.Client;
 using StackExchange.Redis;
 
 namespace Valuator;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,16 @@ public class Program
             (
                 sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase()
             );
+
+        ConnectionFactory rabbitFactory = new ConnectionFactory
+        {
+            HostName = builder.Configuration["RABBITMQ_HOST"] ?? "",
+            UserName = builder.Configuration["RABBITMQ_USER"] ?? "" ,
+            Password = builder.Configuration["RABBITMQ_PASS"] ?? ""
+        };
+
+        IConnection rabbitConnection = await rabbitFactory.CreateConnectionAsync();
+        builder.Services.AddSingleton(rabbitConnection);
 
         builder.Services.AddRazorPages();
 
@@ -37,25 +48,5 @@ public class Program
         app.MapRazorPages();
 
         app.Run();
-    }
-
-    private double CalculateRank(string text)
-    {
-        if (string.IsNullOrEmpty(text))
-        {
-            return 0.0;
-        }
-
-        int nonAlphabetCharsCount = 0;
-
-        foreach (char c in text)
-        {
-            if (!char.IsLetter(c))
-            {
-                nonAlphabetCharsCount++;
-            }
-        }
-
-        return (double)nonAlphabetCharsCount / text.Length;
     }
 }

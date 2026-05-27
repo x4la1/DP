@@ -13,16 +13,18 @@ public class IndexModel : PageModel
 {
     private readonly ILogger<IndexModel> _logger;
     private readonly IDatabase _redis;
+    IConnection _rabbitConnection;
 
     private const string ExchangeName = "valuator.processing.rank";
     private const string QueueName = "valuator.processing.rank";
     private const string EventsExchangeName = "valuator.events";
     private const string SimilarityEventName = "event.similarity";
 
-    public IndexModel(ILogger<IndexModel> logger, IDatabase redis)
+    public IndexModel(ILogger<IndexModel> logger, IDatabase redis, IConnection rabbitConnection)
     {
         _logger = logger;
         _redis = redis;
+        _rabbitConnection = rabbitConnection;
     }
 
     public void OnGet() { }
@@ -53,9 +55,7 @@ public class IndexModel : PageModel
 
     private async Task PublishSimilarityCalculatedEventAsync(SimilarityCalculatedEvent payload)
     {
-        ConnectionFactory connectionFactory = new ConnectionFactory { HostName = "localhost" };
-        await using IConnection connection = await connectionFactory.CreateConnectionAsync();
-        await using IChannel channel = await connection.CreateChannelAsync();
+        await using IChannel channel = await _rabbitConnection.CreateChannelAsync();
 
         await channel.ExchangeDeclareAsync(
             exchange: EventsExchangeName,
@@ -75,9 +75,7 @@ public class IndexModel : PageModel
 
     private async Task PublishRankTaskAsync(string id)
     {
-        ConnectionFactory factory = new ConnectionFactory { HostName = "localhost" };
-        await using IConnection connection = await factory.CreateConnectionAsync();
-        await using IChannel channel = await connection.CreateChannelAsync();
+        await using IChannel channel = await _rabbitConnection.CreateChannelAsync();
 
         await DeclareTopologyAsync(channel, CancellationToken.None);
 
